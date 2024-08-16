@@ -86,3 +86,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- Neo Tree
 vim.keymap.set('n', '<leader>oo', ':Neotree filesystem reveal left<CR>')
 
+
+-- Lualine
+require('lualine').setup({
+	option = {
+		theme = "gruvbox"
+	}
+})
