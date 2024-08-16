@@ -33,33 +33,33 @@ g.maplocalleader = " "
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out,                            "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
 vim.opt.rtp:prepend(lazypath)
 
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = require("plugins"),
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
+	spec = require("plugins"),
+	-- Configure any other settings here. See the documentation for more details.
+	-- colorscheme that will be used when installing plugins.
+	install = { colorscheme = { "habamax" } },
+	-- automatically check for plugin updates
+	checker = { enabled = true },
 })
 
 
--- Catppuccin Colorscheme 
+-- Catppuccin Colorscheme
 require("catppuccin").setup()
 cmd.colorscheme "catppuccin"
 
@@ -67,14 +67,14 @@ cmd.colorscheme "catppuccin"
 -- Telescope Fuzzy Finder
 
 require("telescope").setup {
-  extensions = {
-    ["ui-select"] = {
-      require("telescope.themes").get_dropdown {
-        -- even more opts
-      }
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown {
+				-- even more opts
+			}
 
-         }
-  }
+		}
+	}
 }
 
 
@@ -101,18 +101,18 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 -- Neo Tree
 require("neo-tree").setup({
 	filesystem = {
-      filtered_items = {
-	 visible = true,
-	 show_hidden_count = true,
-	 hide_dotfiles = false,
-	 hide_gitignored = false,
-	never_show = {
+		filtered_items = {
+			visible = true,
+			show_hidden_count = true,
+			hide_dotfiles = false,
+			hide_gitignored = false,
+			never_show = {
 				".git",
-     ".DS_Store",
-     "thumbs.db"
+				".DS_Store",
+				"thumbs.db"
 			},
-      },
-    }
+		},
+	}
 })
 vim.keymap.set('n', '<leader>oo', ':Neotree filesystem reveal left<CR>')
 
@@ -128,19 +128,32 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "lua_ls", "tsserver", "gopls"}
+	ensure_installed = { "lua_ls", "tsserver", "gopls", "eslint", "prettier"}
 }
 local lspconfig = require('lspconfig')
-lspconfig.lua_ls.setup({}) -- Lua
+lspconfig.lua_ls.setup({})   -- Lua
 lspconfig.tsserver.setup({}) -- Typescript/Javascript
-lspconfig.gopls.setup({}) -- Go
+lspconfig.gopls.setup({})    -- Go
+lspconfig.eslint.setup({}) -- Eslint
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-    vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, {})
-  end,
+	callback = function(args)
+		vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
+		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
+	end,
 })
 
+
+-- Null/None LS
+local null_ls = require("null-ls")
+
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+	},
+})
+
+
+vim.keymap.set('n', 'gf', vim.lsp.buf.format, {})
