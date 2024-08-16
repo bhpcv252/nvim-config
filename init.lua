@@ -65,6 +65,21 @@ cmd.colorscheme "catppuccin"
 
 
 -- Telescope Fuzzy Finder
+
+require("telescope").setup {
+  extensions = {
+    ["ui-select"] = {
+      require("telescope.themes").get_dropdown {
+        -- even more opts
+      }
+
+         }
+  }
+}
+
+
+require("telescope").load_extension("ui-select")
+
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
@@ -73,17 +88,32 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 
 -- Go nvim
-local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.go",
-  callback = function()
-   require('go.format').goimports()
-  end,
-  group = format_sync_grp,
-})
-
+-- local format_sync_grp = vim.api.nvim_create_augroup("goimports", {})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.go",
+--   callback = function()
+--    require('go.format').goimports()
+--   end,
+--   group = format_sync_grp,
+-- })
+--
 
 -- Neo Tree
+require("neo-tree").setup({
+	filesystem = {
+      filtered_items = {
+	 visible = true,
+	 show_hidden_count = true,
+	 hide_dotfiles = false,
+	 hide_gitignored = false,
+	never_show = {
+				".git",
+     ".DS_Store",
+     "thumbs.db"
+			},
+      },
+    }
+})
 vim.keymap.set('n', '<leader>oo', ':Neotree filesystem reveal left<CR>')
 
 
@@ -93,3 +123,24 @@ require('lualine').setup({
 		theme = "gruvbox"
 	}
 })
+
+
+-- Mason LSP (and stuff) package manager
+require("mason").setup()
+require("mason-lspconfig").setup {
+    ensure_installed = { "lua_ls", "tsserver", "gopls"}
+}
+local lspconfig = require('lspconfig')
+lspconfig.lua_ls.setup({}) -- Lua
+lspconfig.tsserver.setup({}) -- Typescript/Javascript
+lspconfig.gopls.setup({}) -- Go
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
+    vim.keymap.set({'n', 'v'}, '<leader>ca', vim.lsp.buf.code_action, {})
+  end,
+})
+
