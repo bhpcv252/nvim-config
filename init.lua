@@ -214,3 +214,8 @@ require('gitsigns').setup({
 		map('n', '<leader>gb', gitsigns.toggle_current_line_blame)
 	end
 })
+
+
+-- Indent blank line
+require("ibl").setup()
+
