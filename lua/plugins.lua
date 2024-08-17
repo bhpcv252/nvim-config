@@ -82,6 +82,9 @@ return {
 	},
 	{
 		"hrsh7th/cmp-nvim-lsp"
+	},
+	{
+		"lewis6991/gitsigns.nvim"
 	}
 
 }
