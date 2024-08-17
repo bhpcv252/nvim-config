@@ -128,13 +128,22 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "tsserver", "gopls", "eslint", "prettier"}
+	ensure_installed = { "lua_ls", "tsserver", "gopls", "eslint" }
 }
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require('lspconfig')
-lspconfig.lua_ls.setup({})   -- Lua
-lspconfig.tsserver.setup({}) -- Typescript/Javascript
-lspconfig.gopls.setup({})    -- Go
-lspconfig.eslint.setup({}) -- Eslint
+lspconfig.lua_ls.setup({
+	capabilities = capabilities
+})   -- Lua
+lspconfig.tsserver.setup({
+	capabilities = capabilities
+}) -- Typescript/Javascript
+lspconfig.gopls.setup({
+	capabilities = capabilities
+})    -- Go
+lspconfig.eslint.setup({
+	capabilities = capabilities
+}) -- Eslint
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -157,3 +166,35 @@ null_ls.setup({
 
 
 vim.keymap.set('n', 'gf', vim.lsp.buf.format, {})
+
+-- Nvim snippets and completion
+local cmp = require('cmp')
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
+  cmp.setup({
+    snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+      end,
+    },
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' }, -- For luasnip users.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
