@@ -22,6 +22,11 @@ o.history = 50
 o.splitright = true
 o.splitbelow = true
 
+o.foldcolumn = '1'
+o.foldlevel = 99
+o.foldlevelstart = 99
+o.foldenable = true
+
 opt.mouse = "a"
 
 g.mapleader = " "
@@ -130,7 +135,18 @@ require("mason").setup()
 require("mason-lspconfig").setup {
 	ensure_installed = { "lua_ls", "tsserver", "gopls", "eslint" }
 }
-local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
+local capabilities2 = vim.lsp.protocol.make_client_capabilities()
+
+capabilities2.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true
+}
+
+-- Merge capabilities1 and capabilities2
+local capabilities = vim.tbl_deep_extend('force', capabilities1, capabilities2)
+
 local lspconfig = require('lspconfig')
 lspconfig.lua_ls.setup({
 	capabilities = capabilities
@@ -219,3 +235,6 @@ require('gitsigns').setup({
 -- Indent blank line
 require("ibl").setup()
 
+
+-- Nvim UFO - for folding blocks
+require('ufo').setup()

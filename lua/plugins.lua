@@ -92,6 +92,10 @@ return {
 		---@module "ibl"
 		---@type ibl.config
 		opts = {},
+	},
+	{
+		'kevinhwang91/nvim-ufo',
+		dependencies = { 'kevinhwang91/promise-async' },
 	}
 
 }
