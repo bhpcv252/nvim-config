@@ -22,7 +22,7 @@ o.history = 50
 o.splitright = true
 o.splitbelow = true
 
-o.foldcolumn = '1'
+o.foldcolumn = "0"
 o.foldlevel = 99
 o.foldlevelstart = 99
 o.foldenable = true
@@ -245,33 +245,33 @@ require("ibl").setup()
 
 -- Nvim UFO - for folding blocks
 local foldHandler = function(virtText, lnum, endLnum, width, truncate)
-    local newVirtText = {}
-    local suffix = (' 󰁂 %d '):format(endLnum - lnum)
-    local sufWidth = vim.fn.strdisplaywidth(suffix)
-    local targetWidth = width - sufWidth
-    local curWidth = 0
-    for _, chunk in ipairs(virtText) do
-        local chunkText = chunk[1]
-        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-        if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-        else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, {chunkText, hlGroup})
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-        end
-        curWidth = curWidth + chunkWidth
-    end
-    table.insert(newVirtText, {suffix, 'MoreMsg'})
-    return newVirtText
+	local newVirtText = {}
+	local suffix = (' 󰁂 %d '):format(endLnum - lnum)
+	local sufWidth = vim.fn.strdisplaywidth(suffix)
+	local targetWidth = width - sufWidth
+	local curWidth = 0
+	for _, chunk in ipairs(virtText) do
+		local chunkText = chunk[1]
+		local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+		if targetWidth > curWidth + chunkWidth then
+			table.insert(newVirtText, chunk)
+		else
+			chunkText = truncate(chunkText, targetWidth - curWidth)
+			local hlGroup = chunk[2]
+			table.insert(newVirtText, { chunkText, hlGroup })
+			chunkWidth = vim.fn.strdisplaywidth(chunkText)
+			-- str width returned from truncate() may less than 2nd argument, need padding
+			if curWidth + chunkWidth < targetWidth then
+				suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+			end
+			break
+		end
+		curWidth = curWidth + chunkWidth
+	end
+	table.insert(newVirtText, { suffix, 'MoreMsg' })
+	return newVirtText
 end
 
 require('ufo').setup({
-	    fold_virt_text_handler = foldHandler
+	fold_virt_text_handler = foldHandler
 })
