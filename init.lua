@@ -28,6 +28,7 @@ o.foldlevelstart = 99
 o.foldenable = true
 
 opt.mouse = "a"
+opt.wrap = false
 
 g.mapleader = " "
 g.maplocalleader = " "
