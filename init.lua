@@ -33,7 +33,6 @@ opt.wrap = false
 g.mapleader = " "
 g.maplocalleader = " "
 
-
 vim.api.nvim_set_keymap('n', 'j', 'jzz', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'k', 'kzz', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<Down>', 'jzz', { noremap = true, silent = true })
