@@ -1,6 +1,9 @@
-# Neovim Config
+# My Neovim Config
 
-Included
+Don't have time to refactor and make it pretty right now (will do when I'm free)
+
+```
+Includs:
 - Lazy plugin manager
 - Colorscheme
 - Neo tree
@@ -9,3 +12,5 @@ Included
 - Snippets
 - Code Completion
 - Formatting and Linting
+    etc. etc. etc...
+```
