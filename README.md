@@ -14,3 +14,5 @@ Includs:
 - Formatting and Linting
     etc. etc. etc...
 ```
+
+![Neovim Preview](preview.png)
