@@ -154,6 +154,7 @@ capabilities2.textDocument.foldingRange = {
 local capabilities = vim.tbl_deep_extend('force', capabilities1, capabilities2)
 
 local lspconfig = require('lspconfig')
+local lsputils = require('lspconfig/util')
 lspconfig.lua_ls.setup({
 	capabilities = capabilities
 }) -- Lua
@@ -161,7 +162,13 @@ lspconfig.tsserver.setup({
 	capabilities = capabilities
 }) -- Typescript/Javascript
 lspconfig.gopls.setup({
-	capabilities = capabilities
+	capabilities = capabilities,
+	settings = {
+		gopls = {
+			completeUnimported = true,
+			gofumpt = true
+		}
+	}
 }) -- Go
 lspconfig.eslint.setup({
 	capabilities = capabilities
@@ -179,15 +186,43 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- Null/None LS
 local null_ls = require("null-ls")
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.gofumpt,
+		null_ls.builtins.formatting.golines,
+		null_ls.builtins.formatting.goimports_reviser,
 	},
+	on_attach = function(client, bufnr)
+		if client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({
+				group = augroup,
+				buffer = bufnr,
+			})
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({
+						buffer = bufnr
+					})
+				end
+			})
+		end
+	end
 })
 
 
-vim.keymap.set('n', 'gf', vim.lsp.buf.format, {})
+vim.keymap.set('n', 'gf', function()
+	vim.lsp.buf.execute_command({
+		command = "source.organizeImports",
+		arguments = { vim.api.nvim_buf_get_name(0) },
+	})
+
+	vim.lsp.buf.format({ async = false })
+end, {})
 
 -- Nvim snippets and completion
 local cmp = require('cmp')
@@ -273,4 +308,14 @@ end
 
 require('ufo').setup({
 	fold_virt_text_handler = foldHandler
+})
+
+
+-- Colorizer
+require('colorizer').setup({
+	'css',
+	'javascript',
+	'html',
+}, {
+	css = true,
 })
