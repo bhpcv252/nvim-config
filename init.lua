@@ -139,7 +139,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "tsserver", "gopls", "pyright", "eslint" }
+	ensure_installed = { "lua_ls", "tsserver", "gopls", "denols", "pyright", "eslint", "jsonls" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
@@ -176,7 +176,9 @@ lspconfig.pyright.setup({
 lspconfig.eslint.setup({
 	capabilities = capabilities
 }) -- Eslint
-
+lspconfig.jsonls.setup({
+	capabilities = capabilities
+}) -- JSON
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
@@ -193,10 +195,13 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
 	sources = {
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.deno_fmt,
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.formatting.golines,
 		null_ls.builtins.formatting.goimports_reviser,
+		null_ls.builtins.formatting.prettier,
 	},
 	on_attach = function(client, bufnr)
 		if client.supports_method("textDocument/formatting") then
