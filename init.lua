@@ -139,7 +139,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "tsserver", "gopls", "eslint" }
+	ensure_installed = { "lua_ls", "tsserver", "gopls", "pyright", "eslint" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
@@ -170,6 +170,9 @@ lspconfig.gopls.setup({
 		}
 	}
 }) -- Go
+lspconfig.pyright.setup({
+	capabilities = capabilities
+}) -- Python
 lspconfig.eslint.setup({
 	capabilities = capabilities
 }) -- Eslint
