@@ -1,7 +1,6 @@
 local g = vim.g
 local o = vim.o
 local opt = vim.opt
-local cmd = vim.cmd
 
 
 o.number = true
@@ -71,9 +70,74 @@ require("lazy").setup({
 
 
 -- Catppuccin Colorscheme
-require("catppuccin").setup()
-cmd.colorscheme "catppuccin"
+require("catppuccin").setup({
+	flavour = "auto", -- latte, frappe, macchiato, mocha
+	background = { -- :h background
+		light = "latte",
+		dark = "mocha",
+	},
+	transparent_background = false, -- disables setting the background color.
+	show_end_of_buffer = false,  -- shows the '~' characters after the end of buffers
+	term_colors = false,         -- sets terminal colors (e.g. `g:terminal_color_0`)
+	dim_inactive = {
+		enabled = false,         -- dims the background color of inactive window
+		shade = "dark",
+		percentage = 0.15,       -- percentage of the shade to apply to the inactive window
+	},
+	no_italic = false,           -- Force no italic
+	no_bold = false,             -- Force no bold
+	no_underline = false,        -- Force no underline
+	styles = {                   -- Handles the styles of general hi groups (see `:h highlight-args`):
+		comments = { "italic" }, -- Change the style of comments
+		conditionals = { "italic" },
+		loops = {},
+		functions = {},
+		keywords = {},
+		strings = {},
+		variables = {},
+		numbers = {},
+		booleans = {},
+		properties = {},
+		types = {},
+		operators = {},
+		-- miscs = {}, -- Uncomment to turn off hard-coded styles
+	},
+	color_overrides = {
+		mocha = {
+			base = "#1A1A19",
+			mantle = "#212121",
+			blue = "#94e2d5",
+			green = "#729762",
+			flamingo = "#8967B3",
+			sky = "#578FCA",
+			yellow = "#F6C794",
+			surface0 = "#373A40",
+			surface1 = "#BF3131",
+		}
+	},
+	custom_highlights = {},
+	default_integrations = true,
+	integrations = {
+		cmp = true,
+		gitsigns = true,
+		nvimtree = true,
+		treesitter = true,
+		notify = false,
+		mini = {
+			enabled = true,
+			indentscope_color = "",
+		},
+		-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+		neotree = true,
+		telescope = {
+			enabled = true,
+		}
 
+	},
+})
+
+-- setup must be called before loading
+vim.cmd.colorscheme "catppuccin"
 
 -- Telescope Fuzzy Finder
 
@@ -131,7 +195,7 @@ vim.keymap.set('n', '<leader>oo', ':Neotree filesystem toggle left<CR>')
 -- Lualine
 require('lualine').setup({
 	option = {
-		theme = "gruvbox"
+		theme = "catppuccin"
 	}
 })
 
@@ -322,3 +386,11 @@ require('colorizer').setup({
 }, {
 	css = true,
 })
+
+
+-- Terminal mapping
+vim.api.nvim_set_keymap('n', '<leader>tt', ':term<CR>', { noremap = true, silent = true })
+vim.cmd([[
+  autocmd TermOpen * startinsert
+]])
+vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
