@@ -116,6 +116,11 @@ require("catppuccin").setup({
 		}
 	},
 	custom_highlights = {},
+	highlight_overrides = {
+		mocha = {
+			Visual = { bg = "#BF3131", fg = "#ffffff" }, -- Custom visual mode highlighting
+		}
+	},
 	default_integrations = true,
 	integrations = {
 		cmp = true,
@@ -260,7 +265,6 @@ local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 null_ls.setup({
 	sources = {
 		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.deno_fmt,
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.gofumpt,
 		null_ls.builtins.formatting.golines,
@@ -394,3 +398,16 @@ vim.cmd([[
   autocmd TermOpen * startinsert
 ]])
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })
+
+
+-- Aerial setup
+require("aerial").setup({
+	-- optionally use on_attach to set keymaps when aerial has attached to a buffer
+	on_attach = function(bufnr)
+		-- Jump forwards/backwards with '{' and '}'
+		vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+		vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+	end,
+})
+
+vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
