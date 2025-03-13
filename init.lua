@@ -8,6 +8,9 @@ o.relativenumber = true
 o.autoindent = true
 o.tabstop = 4
 o.shiftwidth = 4
+-- o.softtabstop = 4
+--
+-- o.expandtab = true
 
 o.termguicolors = true
 
@@ -28,6 +31,9 @@ o.foldenable = true
 
 opt.mouse = "a"
 opt.wrap = false
+
+o.list = true
+opt.listchars = { tab = "→ " }
 
 g.mapleader = " "
 g.maplocalleader = " "
@@ -136,7 +142,12 @@ require("catppuccin").setup({
 		neotree = true,
 		telescope = {
 			enabled = true,
-		}
+		},
+		indent_blankline = {
+			enabled = true,
+			scope_color = "surface1", -- catppuccin color (eg. `lavender`) Default: text
+			colored_indent_levels = false,
+		},
 
 	},
 })
