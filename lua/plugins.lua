@@ -15,7 +15,7 @@ return {
 			local configs = require("nvim-treesitter.configs")
 
 			configs.setup({
-				ensure_installed = { "go", "lua", "vim", "javascript", "html", "css", "json", "sql", "typescript", "python" },
+				ensure_installed = { "c", "cpp", "glsl", "go", "lua", "vim", "javascript", "html", "css", "scss", "json", "sql", "typescript", "python", "r", "regex", "make", "zig", "yaml", "rust", "java", "diff", "dockerfile", "comment", "bash" },
 				sync_install = false,
 				highlight = { enable = true, additional_vim_regex_highlighting = false },
 				indent = { enable = true },
@@ -55,7 +55,7 @@ return {
 		"nvimtools/none-ls.nvim"
 	},
 
-	-- For snippets and completion	
+	-- For snippets and completion
 	{
 		"hrsh7th/nvim-cmp"
 	},

@@ -71,7 +71,7 @@ require("lazy").setup({
 	-- colorscheme that will be used when installing plugins.
 	install = { colorscheme = { "habamax" } },
 	-- automatically check for plugin updates
-	checker = { enabled = true },
+	checker = { enabled = false },
 })
 
 
@@ -219,7 +219,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "tsserver", "gopls", "denols", "pyright", "eslint", "jsonls" }
+	ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "ast_grep", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
@@ -235,12 +235,11 @@ local capabilities = vim.tbl_deep_extend('force', capabilities1, capabilities2)
 
 local lspconfig = require('lspconfig')
 local lsputils = require('lspconfig/util')
+
 lspconfig.lua_ls.setup({
 	capabilities = capabilities
 }) -- Lua
-lspconfig.tsserver.setup({
-	capabilities = capabilities
-}) -- Typescript/Javascript
+
 lspconfig.gopls.setup({
 	capabilities = capabilities,
 	settings = {
@@ -250,15 +249,82 @@ lspconfig.gopls.setup({
 		}
 	}
 }) -- Go
+
 lspconfig.pyright.setup({
 	capabilities = capabilities
 }) -- Python
-lspconfig.eslint.setup({
-	capabilities = capabilities
-}) -- Eslint
+
 lspconfig.jsonls.setup({
 	capabilities = capabilities
 }) -- JSON
+
+lspconfig.ast_grep.setup({
+	capabilities = capabilities
+}) -- C/C++/Rust/Go/Python/Java/HTML/CSS/Dart/Kotlin
+
+lspconfig.biome.setup({
+	capabilities = capabilities
+}) -- Typescript/Javascript/React/Vue/etc... Mostly Frontend
+
+lspconfig.marksman.setup({
+	capabilities = capabilities
+}) -- Markdown/MDX
+
+lspconfig.glsl_analyzer.setup({
+	capabilities = capabilities
+}) -- GLSL/Vert/Frag/etc..
+
+lspconfig.wgsl_analyzer.setup({
+	capabilities = capabilities
+}) -- WGSL
+
+lspconfig.cssls.setup({
+	capabilities = capabilities
+}) -- CSS/SCSS/LESS
+
+lspconfig.sqls.setup({
+	capabilities = capabilities
+}) -- SQL
+
+lspconfig.vimls.setup({
+	capabilities = capabilities
+}) -- VimScript
+
+lspconfig.volar.setup({
+	capabilities = capabilities
+}) -- Vue
+
+lspconfig.yamlls.setup({
+	capabilities = capabilities
+}) -- Yaml
+
+lspconfig.zls.setup({
+	capabilities = capabilities
+}) -- ZIG
+
+lspconfig.bashls.setup({
+	capabilities = capabilities
+}) -- BASH/SH/ZSH
+
+lspconfig.clangd.setup({
+	capabilities = capabilities
+}) -- C/C++
+
+lspconfig.graphql.setup({
+	capabilities = capabilities
+}) -- GraphQL
+
+lspconfig.typos_lsp.setup({
+	capabilities = capabilities,
+	init_options = {
+		diagnosticSeverity = "Hint"
+	}
+}) -- Typo Checking
+
+lspconfig.dprint.setup({
+	capabilities = capabilities
+}) -- Code Formatting for several languages
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
@@ -267,6 +333,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
 	end,
 })
+
 
 
 -- Null/None LS
