@@ -325,6 +325,9 @@ lspconfig.dprint.setup({
 	capabilities = capabilities
 }) -- Code Formatting for several languages
 
+lspconfig.neocmake.setup({
+	capabilities = capabilities
+}) -- Code Formatting for several languages
 
 vim.api.nvim_create_autocmd('LspAttach', {
 	callback = function(args)
