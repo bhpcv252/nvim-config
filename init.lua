@@ -219,7 +219,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "ast_grep", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint" }
+	ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "ast_grep", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint", "neocmake" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
