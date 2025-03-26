@@ -219,7 +219,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-	ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "ast_grep", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint", "neocmake" }
+	ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "tsserver", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint", "neocmake" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
@@ -258,13 +258,9 @@ lspconfig.jsonls.setup({
 	capabilities = capabilities
 }) -- JSON
 
--- lspconfig.ast_grep.setup({
--- 	capabilities = capabilities,
--- 	autostart = true,
--- 	root_dir = function(fname)
--- 		return require('lspconfig').util.find_git_ancestor(fname) or vim.fn.getcwd()
--- 	end,
--- }) -- C/C++/Rust/Go/Python/Java/HTML/CSS/Dart/Kotlin
+lspconfig.tsserver.setup({
+	capabilities = capabilities
+}) -- Typescript/ Javascript
 
 lspconfig.biome.setup({
 	capabilities = capabilities,
@@ -344,7 +340,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
 	end,
 })
-
 
 
 -- Null/None LS
