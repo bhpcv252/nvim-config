@@ -258,17 +258,20 @@ lspconfig.jsonls.setup({
 	capabilities = capabilities
 }) -- JSON
 
-lspconfig.ast_grep.setup({
+-- lspconfig.ast_grep.setup({
+-- 	capabilities = capabilities,
+-- 	autostart = true,
+-- 	root_dir = function(fname)
+-- 		return require('lspconfig').util.find_git_ancestor(fname) or vim.fn.getcwd()
+-- 	end,
+-- }) -- C/C++/Rust/Go/Python/Java/HTML/CSS/Dart/Kotlin
+
+lspconfig.biome.setup({
 	capabilities = capabilities,
 	autostart = true,
 	root_dir = function(fname)
 		return require('lspconfig').util.find_git_ancestor(fname) or vim.fn.getcwd()
 	end,
-}) -- C/C++/Rust/Go/Python/Java/HTML/CSS/Dart/Kotlin
-
-lspconfig.biome.setup({
-	capabilities = capabilities,
-	autostart = true
 }) -- Typescript/Javascript/React/Vue/etc... Mostly Frontend
 
 lspconfig.marksman.setup({
