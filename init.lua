@@ -259,7 +259,8 @@ lspconfig.jsonls.setup({
 }) -- JSON
 
 lspconfig.ast_grep.setup({
-	capabilities = capabilities
+	capabilities = capabilities,
+	autostart = true
 }) -- C/C++/Rust/Go/Python/Java/HTML/CSS/Dart/Kotlin
 
 lspconfig.biome.setup({
@@ -344,6 +345,7 @@ local null_ls = require("null-ls")
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
+	autostart = true,
 	sources = {
 		null_ls.builtins.formatting.black,
 		null_ls.builtins.formatting.stylua,
