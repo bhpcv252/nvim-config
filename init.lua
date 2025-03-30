@@ -34,6 +34,8 @@ opt.wrap = false
 
 o.list = true
 opt.listchars = { tab = "→ " }
+opt.guicursor =
+"n-v-c-sm:block,ci-ve:ver25,r-cr-o:hor20,n-v-c-sm:block-blinkwait700-blinkoff400-blinkon100-Cursor/lCursor"
 
 g.mapleader = " "
 g.maplocalleader = " "
