@@ -80,23 +80,23 @@ require("lazy").setup({
 -- Catppuccin Colorscheme
 require("catppuccin").setup({
     flavour = "auto", -- latte, frappe, macchiato, mocha
-    background = { -- :h background
+    background = {    -- :h background
         light = "latte",
         dark = "mocha",
     },
     transparent_background = false, -- disables setting the background color.
-    show_end_of_buffer = false,  -- shows the '~' characters after the end of buffers
-    term_colors = false,         -- sets terminal colors (e.g. `g:terminal_color_0`)
+    show_end_of_buffer = false,     -- shows the '~' characters after the end of buffers
+    term_colors = false,            -- sets terminal colors (e.g. `g:terminal_color_0`)
     dim_inactive = {
-        enabled = false,         -- dims the background color of inactive window
+        enabled = false,            -- dims the background color of inactive window
         shade = "dark",
-        percentage = 0.15,       -- percentage of the shade to apply to the inactive window
+        percentage = 0.15,          -- percentage of the shade to apply to the inactive window
     },
-    no_italic = false,           -- Force no italic
-    no_bold = false,             -- Force no bold
-    no_underline = false,        -- Force no underline
-    styles = {                   -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = { "italic" }, -- Change the style of comments
+    no_italic = false,              -- Force no italic
+    no_bold = false,                -- Force no bold
+    no_underline = false,           -- Force no underline
+    styles = {                      -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" },    -- Change the style of comments
         conditionals = { "italic" },
         loops = {},
         functions = {},
@@ -221,7 +221,7 @@ require('lualine').setup({
 -- Mason LSP (and stuff) package manager
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "tsserver", "biome", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "volar", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint", "neocmake" }
+    ensure_installed = { "lua_ls", "gopls", "pyright", "jsonls", "biome", "tailwindcss", "marksman", "glsl_analyzer", "wgsl_analyzer", "cssls", "sqls", "vimls", "yamlls", "zls", "bashls", "clangd", "graphql", "typos_lsp", "dprint", "neocmake" }
 }
 
 local capabilities1 = require('cmp_nvim_lsp').default_capabilities()
@@ -260,10 +260,6 @@ lspconfig.jsonls.setup({
     capabilities = capabilities
 }) -- JSON
 
-lspconfig.tsserver.setup({
-    capabilities = capabilities
-}) -- Typescript/ Javascript
-
 lspconfig.biome.setup({
     capabilities = capabilities,
     autostart = true,
@@ -271,6 +267,10 @@ lspconfig.biome.setup({
         return require('lspconfig').util.find_git_ancestor(fname) or vim.fn.getcwd()
     end,
 }) -- Typescript/Javascript/React/Vue/etc... Mostly Frontend
+
+lspconfig.tailwindcss.setup({
+    capabilities = capabilities
+}) -- Tailwind CSS
 
 lspconfig.marksman.setup({
     capabilities = capabilities
@@ -295,10 +295,6 @@ lspconfig.sqls.setup({
 lspconfig.vimls.setup({
     capabilities = capabilities
 }) -- VimScript
-
-lspconfig.volar.setup({
-    capabilities = capabilities
-}) -- Vue
 
 lspconfig.yamlls.setup({
     capabilities = capabilities
@@ -503,9 +499,9 @@ vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
 local actions = require("diffview.actions")
 
 require("diffview").setup({
-    git_cmd = { "git" },    -- The git executable followed by default args.
-    hg_cmd = { "hg" },      -- The hg executable followed by default args.
-    use_icons = true,       -- Requires nvim-web-devicons
+    git_cmd = { "git" },          -- The git executable followed by default args.
+    hg_cmd = { "hg" },            -- The hg executable followed by default args.
+    use_icons = true,             -- Requires nvim-web-devicons
     keymaps = {
         disable_defaults = false, -- Disable the default keymaps
         view = {

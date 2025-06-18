@@ -47,9 +47,20 @@ return {
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     {
-        "williamboman/mason.nvim",
-        "williamboman/mason-lspconfig.nvim",
+        "mason-org/mason.nvim",
+        commit = "fc98833",
+    },
+    {
         "neovim/nvim-lspconfig",
+    },
+    {
+        "mason-org/mason-lspconfig.nvim",
+        commit = "1a31f82",
+        opts = {},
+        dependencies = {
+            { "mason-org/mason.nvim", opts = {}, commit = "fc98833", },
+            "neovim/nvim-lspconfig",
+        },
     },
     {
         "nvimtools/none-ls.nvim"
