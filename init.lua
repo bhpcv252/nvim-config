@@ -247,7 +247,8 @@ lspconfig.gopls.setup({
     settings = {
         gopls = {
             completeUnimported = true,
-            gofumpt = true
+            gofumpt = true,
+            buildFlags = { "-tags=integration,e2e" },
         }
     }
 }) -- Go
@@ -309,8 +310,19 @@ lspconfig.bashls.setup({
 }) -- BASH/SH/ZSH
 
 lspconfig.clangd.setup({
-    capabilities = capabilities
+    capabilities = capabilities,
+    filetypes = {
+        "c",
+        "cpp",
+        "objc",
+        "objcpp",
+        "cuda",
+    },
 }) -- C/C++
+
+lspconfig.protols.setup({
+    capabilities = capabilities,
+})
 
 lspconfig.graphql.setup({
     capabilities = capabilities
