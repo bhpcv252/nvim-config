@@ -248,7 +248,7 @@ lspconfig.gopls.setup({
         gopls = {
             completeUnimported = true,
             gofumpt = true,
-            buildFlags = { "-tags=integration,e2e,kafka" },
+            buildFlags = { "-tags=integration,e2e,outbox" },
         }
     }
 }) -- Go
