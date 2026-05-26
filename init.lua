@@ -434,6 +434,7 @@ require('gitsigns').setup({
 
         map('n', '<leader>gh', gitsigns.preview_hunk)
         map('n', '<leader>gb', gitsigns.toggle_current_line_blame)
+        map('n', '<leader>gr', gitsigns.reset_hunk)
     end
 })
 
